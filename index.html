@@ -1,13 +1,25 @@
 <!DOCTYPE html>
-<html style="margin:0;box-sizing:border-box" lang="en">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
     <title>Alien invasion</title>
 </head>
-<body style="margin:0;box-sizing:border-box; width: 100vw; height: 100vh;">
+<body>
     <canvas id="game-canvas"></canvas>
+    <div id="ui">
+        <p id="score"></p>
+        <p id="abductions"></p>
+    </div>
+    <div id="modal">
+        <div id="menu">
+            <h1>Alien invasion</h1>
+            <p class="menu-button" id="play-button">PLAY</p>
+            <p class="menu-button" id="high-score-button">High Scores</p>
+        </div>
+    </div>
 </body>
 <script src="utils.js"></script>
 <script src="settings.js"></script>

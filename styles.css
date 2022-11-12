@@ -1,0 +1,61 @@
+
+
+
+@font-face {
+    font-family: Orbiton;
+    src: url('Orbitron-VariableFont_wght.ttf');
+}
+
+* {
+    font-family: Orbiton;
+    box-sizing: border-box;
+}
+#modal {
+    position: absolute;
+    left: 0;
+    top: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+}
+
+#menu {
+    padding: 1rem;
+    background-color: rgba(182, 182, 182, 0.8);
+}
+
+html {
+    margin:0;
+    width: 100vw; 
+    height: 100vh;
+    position: relative;
+
+}
+
+body {
+    margin:0;
+    width: 100%; 
+    height: 100%;
+}
+
+
+#score {
+    position: fixed;
+    left: 40px;
+    bottom: 20px;
+    color: white;
+}
+
+#abductions {
+    position:fixed;
+    right: 40px;
+    bottom: 20px;
+    color: white;
+}
+
+.menu-button:hover {
+    color: cyan;
+    cursor: pointer;
+}
