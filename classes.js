@@ -64,7 +64,7 @@ class Alien extends Sprite {
         this.x += this.moveDirection * this.moveSpeed;
         if (this.x + this.width >= window.innerWidth || this.x <= 0) {
             this.moveDirection *= -1;
-            this.y +=100
+            this.y +=window.innerHeight/20
         }
     }
 }
@@ -96,17 +96,30 @@ class Ship extends Sprite {
         this.controls = {
             right: {pressed: false},
             left: {pressed: false},
+            up: {pressed: false},
+            down: {pressed: false},
             fire: {pressed: false}
         }
     }
     update() {
-        this.draw()
-        if (this.controls.right.pressed === true) {
-            this.x += 5
+        if (this.exists) {
+            this.draw()
+            if (this.controls.right.pressed && this.x+this.width <= window.innerWidth) {
+                this.x += 5
+            }
+            if (this.controls.left.pressed && this.x >= 0) {
+                this.x -= 5
+            }
+
+            if (this.controls.up.pressed && this.y >= 0) {
+                this.y -= 5
+            }
+
+            if (this.controls.down.pressed && this.y + this.height <= window.innerHeight) {
+                this.y += 5
+            }
+
+            if (this.y > window.innerHeight - window.innerHeight/8) --this.y;
         }
-        if (this.controls.left.pressed === true) {
-            this.x -= 5
-        }
-        if (this.y > window.innerHeight - 250) --this.y;
     }
 }

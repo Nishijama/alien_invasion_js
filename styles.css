@@ -10,18 +10,18 @@
     font-family: Orbiton;
     box-sizing: border-box;
 }
-#modal {
+#menu-modal, #game-over-modal {
     position: absolute;
     left: 0;
     top: 0;
-    display: flex;
+    display: none;
     justify-content: center;
     align-items: center;
     width: 100%;
     height: 100%;
 }
 
-#menu {
+#menu, #game-over{
     padding: 1rem;
     background-color: rgba(182, 182, 182, 0.8);
 }

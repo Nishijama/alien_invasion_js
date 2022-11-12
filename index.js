@@ -9,30 +9,34 @@ window.addEventListener('resize', () => {
     console.log('resized');
 })
 let ctx = canvas.getContext("2d");
-
 let background = new Background(settings.sprites.background)
 function animateBackground() {
     window.requestAnimationFrame(animateBackground) 
     background.update()
 }
 animateBackground()
-let STATE = 'menu'
+let menuModal = document.getElementById('menu-modal');
+let gameOverModal = document.getElementById('game-over-modal');
 
 // MENU
 
-document.getElementById('play-button').addEventListener('click', () => {
-    document.getElementById('modal').style.display = 'none';
-    let newScore = play()
-    console.log(newScore);
-})
-
-
-
-function play() {
-    STATE = 'playing'
+function displayMenu(newScore=undefined) {
+    menuModal.style.display = 'flex';
+    document.getElementById('play-button').addEventListener('click', () => {
+        menuModal.style.display = 'none';
+        play()
+        console.log(newScore);
+    })
     
+}
+
+displayMenu();
+
+function play() { 
     let scoreUI = document.querySelector("#score")
     let abductionsUI = document.querySelector("#abductions")
+    scoreUI.style.display = 'block'
+    abductionsUI.style.display = 'block'
     let playerScore = 0;
     let abductions = 0;
     abductionsUI.innerText = abductions;
@@ -43,13 +47,14 @@ function play() {
     let alienRowCount = 1;
     let maxAlienRowCount = 4;
 
-    // create alien fleet
-
+ 
     window.addEventListener('keydown', ({key}) => {
         console.log(key);
         switch(key) {
             case "a": ship.controls.left.pressed = true; break;
             case "d": ship.controls.right.pressed = true; break;
+            case "w": ship.controls.up.pressed = true; break;
+            case "s": ship.controls.down.pressed = true; break;
             case " ": ship.controls.fire.pressed = true; break;
             case "Escape": STATE = 'paused'; break;
         }
@@ -58,17 +63,18 @@ function play() {
         switch(key) {
             case "a": ship.controls.left.pressed = false; break;
             case "d": ship.controls.right.pressed = false; break;
+            case "w": ship.controls.up.pressed = false; break;
+            case "s": ship.controls.down.pressed = false; break;
             case " ": ship.controls.fire.pressed = false; break;
         }
     })
-    
     
     function createAlienFleet(rows, columns) {
         for (let r = 0; r < rows; r++) {
             for (let i=0; i<columns; i++) {
                 aliens.push(new Alien({
                     x: getIntervals(window.innerWidth, 10)[i], 
-                    y: r*200, 
+                    y: r*(window.innerHeight/5), 
                     width: window.innerWidth/20, 
                     height: window.innerWidth/20, 
                     spriteImage: "images/ufo.png"}))
@@ -76,7 +82,27 @@ function play() {
             }
         }
     
-        createAlienFleet(alienRowCount, settings.alienCount)
+    function gameOver(playerScore) {
+        for (let alien of aliens) alien.destroy()
+        for (let bullet of bullets) bullet.destroy()
+        ship.destroy()
+        bullets = []
+        aliens = []
+        scoreUI.style.display = 'none'
+        abductionsUI.style.display = 'none'
+        gameOverModal.style.display = 'flex'
+        document.getElementById('GO-player-score').innerText = playerScore;
+        document.getElementById('back-to-menu-button').addEventListener('click', () => {
+            gameOverModal.style.display = 'none'
+            displayMenu(playerScore)
+        })
+        document.getElementById('try-again-button').addEventListener('click', () => {
+            gameOverModal.style.display = 'none'
+            play()
+        })
+    }
+
+    createAlienFleet(alienRowCount, settings.alienCount)
     
     function animate() {
         window.requestAnimationFrame(animate)
@@ -93,7 +119,7 @@ function play() {
         }
     
         // fire
-        if (ship.controls.fire.pressed === true) {
+        if (ship.exists && ship.controls.fire.pressed) {
             ship.controls.fire.pressed = false;
             let bullet1 = new Bullet({x: ship.x, y: ship.y, color: 'red', width: ship.width/10, height: ship.width/2})
             let bullet2 = new Bullet({x: ship.x + ship.width, y: ship.y, color: 'blue', width: ship.width/10, height: ship.width/2})
@@ -120,7 +146,6 @@ function play() {
                 }
             }
             if (collisionDetection(ship, alien)) {
-                ship.destroy()
                 gameOver(playerScore)
             }
         }
@@ -132,10 +157,6 @@ function play() {
             gameOver(playerScore);
         }
     }
-    
     animate();
 }
 
-function gameOver(playerScore) {
-return playerScore
-}
