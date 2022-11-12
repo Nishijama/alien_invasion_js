@@ -5,6 +5,7 @@ class Sprite {
         this.y = options.y;
         this.width = options.width;
         this.height = options.height;
+        this.exists = true;
         if (options.spriteImage) {
             this.image = new Image();
             this.image.src = options.spriteImage;
@@ -13,13 +14,19 @@ class Sprite {
         } 
     }    
     draw() {
-        if (this.image) {
-            ctx.drawImage(this.image, this.x, this.y, this.width, this.height)
+        if (this.exists) {
+            if (this.image) {
+                ctx.drawImage(this.image, this.x, this.y, this.width, this.height)
+            }
+            else {
+                ctx.fillStyle = this.color;
+                ctx.fillRect(this.x, this.y, this.width, this.height)
+            }
         }
-        else {
-            ctx.fillStyle = this.color;
-            ctx.fillRect(this.x, this.y, this.width, this.height)
-        }
+    }
+    destroy() {
+        console.log(this.constructor.name + " destroyed.");
+        this.exists = false; 
     }
 }
 
