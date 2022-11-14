@@ -15,23 +15,34 @@ let gameOverModal = document.getElementById("game-over-modal");
 let scoreUI = document.querySelector("#score");
 let abductionsUI = document.querySelector("#abductions");
 
+animateBackground();
+
+displayMenu();
+
+// MENU
+
+function checkIfMobile() {
+  return window.innerWidth <= 800 && window.innerHeight <= 600;
+}
+
 function animateBackground() {
   window.requestAnimationFrame(animateBackground);
   background.update();
 }
-animateBackground();
-
-// MENU
 
 function displayMenu(newScore = undefined) {
   scoreUI.style.display = "none";
   abductionsUI.style.display = "none";
   menuModal.style.display = "flex";
-  document.getElementById("play-button").addEventListener("click", () => {
-    menuModal.style.display = "none";
-    play();
-    console.log(newScore);
-  });
+  if (!checkIfMobile()) {
+    document.getElementById("play-button").addEventListener("click", () => {
+      menuModal.style.display = "none";
+      play();
+      console.log(newScore);
+    });
+  } else {
+    alert("sorry, this game does not work on mobile devices :(");
+  }
 }
 
 function displayGameOverMenu(newScore = undefined) {
@@ -51,8 +62,6 @@ function displayGameOverMenu(newScore = undefined) {
     return play();
   });
 }
-
-displayMenu();
 
 function play() {
   scoreUI.style.display = "block";
