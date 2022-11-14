@@ -146,7 +146,7 @@ function play() {
                 }
             }
             if (collisionDetection(ship, alien)) {
-                gameOver(playerScore)
+                return gameOver(playerScore)
             }
         }
         if(aliens.length == 0 && ship.exists) {
@@ -154,7 +154,7 @@ function play() {
             createAlienFleet(alienRowCount, settings.alienCount)
         }
         if(abductions >= 3) {
-            gameOver(playerScore);
+            return gameOver(playerScore);
         }
     }
     animate();
